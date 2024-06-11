@@ -1,12 +1,17 @@
-package org.example.entity;
+package com.example.springboot3_1_2.entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Min;
+
 
 @Entity
 @Table(name = "Users")
@@ -15,10 +20,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "name")
+    @NotBlank(message = "Поле обязательное к заполнению")
+    @Size(min = 2, max=30,message = "Имя должно состоять от 2 до 30 символов")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$",message = "Имя не может содержать цифры или символы")
     private String name;
     @Column(name = "surname")
+    @NotBlank(message = "Поле обязательное к заполнению")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+(?:-[a-zA-Zа-яА-Я]+)?$",message = "Фамилия не может содержать цифры или символы кроме -")
     private String surname;
     @Column(name = "age")
+    @Min(value = 0,message = "Возраст не может быть отрицательным")
     private int age;
 
     public User() {

@@ -1,11 +1,20 @@
-package org.example.controller;
+package com.example.springboot3_1_2.controller;
 
-import org.example.entity.User;
-import org.example.service.UserService;
+
+
+import com.example.springboot3_1_2.entity.User;
+import com.example.springboot3_1_2.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RequestMapping(value = "/users")
@@ -19,13 +28,16 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String saveUser(@ModelAttribute("user")@Valid User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "AddUser";
+        }
         userService.saveUser(user);
         return "redirect:index";
     }
 
     @GetMapping("/addUser")
-    public String addUser() {
+    public String addUser(@ModelAttribute("user") User user) {
         return "AddUser";
     }
 
@@ -42,14 +54,18 @@ public class UserController {
     }
 
     @GetMapping("/edit")
-    public String showEditUser(@RequestParam(value = "id") long id, Model model) {
+    public String showEditUser(Model model, @RequestParam(value = "id") long id) {
         model.addAttribute("user", userService.getUserFindById(id));
         return "EditUser";
     }
 
     @PostMapping("/editUser")
-    public String editUser(@RequestParam(value = "id") long id, @ModelAttribute("user") User user) {
-        userService.updateUser(id, user);
+    public String editUser(@ModelAttribute("user") @Valid User user
+            , BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "EditUser";
+        }
+        userService.updateUser(user);
         return "redirect:index";
     }
 }

@@ -5,10 +5,17 @@
 
 </head>
 <body>
-<form th:action="@{/users/save}" method="post">
-    <input type="text" name="name" placeholder="Введите имя"><br>
-    <input type="text" name="surname" placeholder="Введите фаилию"><br>
-    <input type="text" name="age" placeholder="Введите возраст"><br>
+<form th:action="@{/users/save}" method="post" th:object="${user}">
+    <input type="text" th:field="*{name}" name="name" id="name" placeholder="Введите имя">
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">error</div>
+    <br>
+    <input type="text" th:field="*{surname}" name="surname" id="surname" placeholder="Введите фамилию">
+    <div style="color: red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">error</div>
+    <br>
+    <input type="text" th:field="*{age}" name="age" id="age" placeholder="Введите возраст">
+    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">error</div>
+    <br>
+
     <input type="submit" value="Сохранить">
 </form>
 </body>

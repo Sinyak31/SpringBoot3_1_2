@@ -1,16 +1,17 @@
-package org.example.dao;
+package com.example.springboot3_1_2.dao;
 
-import org.example.entity.User;
-import org.springframework.stereotype.Component;
+
+import com.example.springboot3_1_2.entity.User;
 
 import java.util.List;
 
-@Component
+
+
 public interface UserDao {
 
     void saveUser(User user);
     List<User> getUserList();
     void removeUser(long id);
     User getUserFindById(long id);
-    void updateUser(long id, User user);
+    void updateUser(User user);
 }

@@ -20,10 +20,10 @@
         <td th:text="${users.getSurname()}"></td>
         <td th:text="${users.getAge()}"></td>
         <td>
-            <a th:href="@{'/users/edit?id='+ ${users.getId()}}">
+            <a th:href="@{/users/edit(id=${users.getId()})}">
                 <button>Изменить</button>
             </a>
-            <a th:href="@{'/users/remove?id='+ ${users.getId()}}">
+            <a th:href="@{/users/remove(id=${users.getId()})}">
                 <button>Удалить</button>
             </a>
         </td>
